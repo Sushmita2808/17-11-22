@@ -60,22 +60,18 @@ public class RepositoryActor {
 	/*9.	search for objects in the Actor type database that were born after a certain year 
 	/(i.e. the year is a method parameter)*/
 	
-	public Optional<Actor> findAllBornByYear(int year) {
-		Actor a = em.createQuery("select a from Actor a where a.year_of_birth > :year", Actor.class)
-					.setParameter("birthday", year).getSingleResult();
+	public List<Actor> findAllBornByYear(int year) {
+		System.out.println("Year ="+year);
+		List<Actor> actors= em.createQuery("select a from Actor a where a.year_of_birth> :year", Actor.class)
+					.setParameter("year", year).getResultList();
 		
-		
-		if(a != null)
-			return Optional.of(a);
-		else
-			return Optional.empty();
-		
+		return actors;
+			
 	}
-	
 	/*10.	look for objects in the database of the Actor type, the names of which end with the
 	 specified value of the String type object*/
 		public List<Actor> findAllWithLastNameEndsWith(final String lastname) {
-			List<Actor> actors = em.createQuery("select a FROM Actor a WHERE a.lastName LIKE :lastName", Actor.class)
+			List<Actor> actors = em.createQuery("select a FROM Actor a WHERE a.last_name LIKE :lastName", Actor.class)
 		        .setParameter("lastName", "%" + lastname)
 		        .getResultList();
 			return actors;	
