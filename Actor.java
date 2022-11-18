@@ -1,5 +1,6 @@
 package com.hibernate.jpa.demo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 public class Actor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "actor_id")
+	@Column(name = "id")
 	private int id;
 	
 	@Column(name="first_name", nullable = false, length = 225)
@@ -32,10 +33,10 @@ public class Actor {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="actors_to_movies", 
-			joinColumns = { @JoinColumn(name="actor_id")},
-			inverseJoinColumns = { @JoinColumn(name = "movie_id")}
+			joinColumns = { @JoinColumn(name="actor_id", referencedColumnName="id")},
+			inverseJoinColumns = { @JoinColumn(name = "movie_id", referencedColumnName="id")}
 	)
-    private List<Movie> movie;
+    private List<Movie> movies= new ArrayList<Movie>();
  
 	
 	public Actor() {
@@ -44,22 +45,22 @@ public class Actor {
 	}
 
 
-	public Actor(int id, String name, String last_name, int year_of_birth, List<Movie> movie) {
+	public Actor(int id, String name, String last_name, int year_of_birth, List<Movie> movies) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.last_name = last_name;
 		this.year_of_birth = year_of_birth;
-		this.movie = movie;
+		this.movies = movies;
 	}
 
 
-	public Actor(String name, String last_name, int year_of_birth, List<Movie> movie) {
+	public Actor(String name, String last_name, int year_of_birth, List<Movie> movies) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
 		this.year_of_birth = year_of_birth;
-		this.movie = movie;
+		this.movies = movies;
 	}
 
 
@@ -103,20 +104,20 @@ public class Actor {
 	}
 
 
-	public List<Movie> getMovie() {
-		return movie;
+	public List<Movie> getMovies() {
+		return movies;
 	}
 
 
-	public void setMovie(List<Movie> movie) {
-		this.movie = movie;
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
 	}
 
 
 	@Override
 	public String toString() {
 		return "Actor [id=" + id + ", name=" + name + ", last_name=" + last_name + ", year_of_birth=" + year_of_birth
-				+ ", movie=" + movie + "]";
+				+ ", movies=" + movies + "]";
 	}
 
 	
