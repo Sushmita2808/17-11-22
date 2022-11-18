@@ -40,14 +40,13 @@ public static void main(String[] args) {
 		
 		factory = Persistence.createEntityManagerFactory("HibernateDemo");
 		em = factory.createEntityManager();
-		RepositoryMovie repm = new RepositoryMovie(em);
-
 		
-
-	Actor a1 = new Actor("Aamir","Khan",1965,null);
-	Actor a2 = new Actor("Tobey","Maguire",1975,null);
-	Actor a3 = new Actor("Bill","Skarsgad",1990,null);
-	Actor a4 = new Actor("Salman","Khan",1965,null);
+		RepositoryActor rep = new RepositoryActor(em);
+	
+	Actor a1 = new Actor("Vijay","Deverakonda",1989,null);
+	Actor a2 = new Actor("Rashmika","Mandana",1996,null);
+	Actor a3 = new Actor("Allu ","Arjun",1982,null);
+	Actor a4 = new Actor("Kajal"," Aggarwal",1985,null);
 	
 	List<Actor> actors = new ArrayList<Actor> ();
 	
@@ -55,6 +54,10 @@ public static void main(String[] args) {
 	actors.add(a2);
 	actors.add(a3);
 	actors.add(a4);
+	
+	for(Actor a:actors) {
+		rep.save(a);
+	}
 	
 	List<Actor> actors1 = new ArrayList<Actor>();
 	actors1.add(a1);
@@ -64,48 +67,47 @@ public static void main(String[] args) {
 	actors2.add(a3);
 	actors2.add(a4);
 	
-	Genre g1 = new Genre("Thrillers",null);
+	
+	Genre g1 = new Genre("Drama",null);
 	Genre g2 = new Genre("Action",null);
-	Genre g3 = new Genre("Horror",null);
-	Genre g4 = new Genre("Comedy",null);
 	
 	RepositoryGenre grep = new RepositoryGenre(em);
 	grep.save(g1);
 	grep.save(g2);
-	grep.save(g3);
-	grep.save(g4);
-
-	Movie m1 = new Movie("Ghajini",2008 ,actors1,g1);
-	Movie m2 = new Movie("Spider Man",2002 ,actors1,g2);
-	Movie m3 = new Movie("It",2017 ,actors2,g3);
-	Movie m4 = new Movie("Ready",2011 ,actors2,g4);
+	
+	Movie m1 = new Movie("Dear comrade",2019 ,actors1,g1);
+	Movie m2 = new Movie("Arya 2",2009 ,actors2,g2);
 	
 	RepositoryMovie mrep = new RepositoryMovie(em);
 	mrep.save(m1);
 	mrep.save(m2);
-	mrep.save(m3);
-	mrep.save(m4);
-
+	
 	
 	//Display movie by using id
-	Optional<Movie> m = repm.findById(1);
 	
-	System.out.println("Movies : "+ m);
+	Optional<Movie> m = mrep.findById(1);
+	System.out.println("\nMovies : "+ m);
+	System.out.println("--------------------------------------------------------");
 	
 	//Display all movies
-	List<Movie> movieList = repm.findAll();
-	System.out.println("Movies : " + movieList);
+	List<Movie> movieList = mrep.findAll();
+	System.out.println("\nMovies : " + movieList);
+	System.out.println("--------------------------------------------------------");
 	
 	//find movie by using title
-	m = repm.findByTitle("Spider man");
-	System.out.println("Movies :"+ m);
+	m = mrep.findByTitle("Dear comrade");
+	System.out.println("\nMovies :"+ m);
+	System.out.println("--------------------------------------------------------");
 	
 	//removing one Movie record from the database.
 	 mrep.remove(m2);
+	 List<Movie> mList = mrep.findAll();
+	System.out.println("\nMovies : " + mList);
+	System.out.println("--------------------------------------------------------");	
 	
 	//removing all Movie records from the database
-	 mrep.remove();;
-	
+	 mrep.remove();
+	System.out.println("--------------------------------------------------------");
 	}
 	catch(HibernateException e) {
 	e.printStackTrace();
@@ -116,9 +118,10 @@ public static void main(String[] args) {
 	System.out.println("Exception");
 	}
 	finally {
-	
-		}
-
+		 if(factory!= null) {
+			 factory.close();
+		 }
+	   }
 	}
 }	
 
