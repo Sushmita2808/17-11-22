@@ -10,14 +10,14 @@ import javax.persistence.Persistence;
 
 import org.hibernate.HibernateException;
 public class RepositoryMovie {
-private static EntityManager em;
+private final EntityManager em;
 	
 	public RepositoryMovie(final EntityManager em) {
 		this.em = em;
 	}
 	
 	//11.	adding Movie records to the database
-	public  void save(final Movie movie) {
+	public  Movie save(final Movie movie) {
 		EntityTransaction tx = null;
 		
 		try {
@@ -31,19 +31,18 @@ private static EntityManager em;
 			tx.commit();
 			
 		}
-		catch(HibernateException ex) {
-			System.out.println("Inside Save--exce");
-			
-			throw ex;
-			
+		catch (Exception e) {
+
+			if(tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
 		}
-		finally {		
-			
-		}	
+		return movie;
 	}
 	
 
-	public Optional<Movie> findById(Integer id) {
+	public Optional<Movie> findById(int id) {
 		Movie m = em.find(Movie.class, id);
 		
 		
@@ -54,12 +53,13 @@ private static EntityManager em;
 	}
 	
 	public List<Movie> findAll() {
-		return em.createQuery("from movies").getResultList();
+	     List<Movie> movies= em.createQuery("from Movie", Movie.class).getResultList();
+	     return movies;
 	}
 	
 	public Optional<Movie> findByTitle(String title) {
-		Movie m = em.createQuery("select m from movies m where m.title= :title", Movie.class)
-					.setParameter("Movie_title", title).getSingleResult();
+		Movie m = em.createQuery("select m from Movie m where m.title= :title", Movie.class)
+					.setParameter("title", title).getSingleResult();
 		
 		
 		if(m != null)
