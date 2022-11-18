@@ -1,5 +1,6 @@
 package com.hibernate.jpa.demo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 public class Movie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "movie_id")
+	@Column(name = "id")
 	private int id;
 	
 	@Column(name="movie_title", nullable = false, length = 225)
@@ -29,14 +30,10 @@ public class Movie {
 	private int year_of_release;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="actors_to_movies", 
-			joinColumns = { @JoinColumn(name="actor_id")},
-			inverseJoinColumns = { @JoinColumn(name = "movie_id")}
-	)
-	private List<Actor> actors;
+	@ManyToMany(mappedBy = "movies")
+	private List<Actor> actors = new ArrayList<Actor>() ;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="genre_id")
 	private Genre genres;
 
@@ -121,10 +118,8 @@ public class Movie {
 		return "Movie [id=" + id + ", title=" + title + ", year_of_release=" + year_of_release + ", actors=" + actors
 				+ ", genres=" + genres + "]";
 	}
-
-
-	
 	
 
-	
+
 }
+
