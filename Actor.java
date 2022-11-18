@@ -25,7 +25,7 @@ public class Actor {
 	@Column(name="first_name", nullable = false, length = 225)
 	private String name;
 	
-	@Column(name="last_name", nullable = false, length = 225)
+	@Column(name="lastname", nullable = false, length = 225)
 	private String last_name;
 	
 	@Column(name = "birthday")
