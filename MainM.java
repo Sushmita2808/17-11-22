@@ -86,27 +86,32 @@ public static void main(String[] args) {
 	//Display movie by using id
 	
 	Optional<Movie> m = mrep.findById(1);
+	System.out.println("------------------  Find  ID  --------------------------");
 	System.out.println("\nMovies : "+ m);
 	System.out.println("--------------------------------------------------------");
 	
 	//Display all movies
 	List<Movie> movieList = mrep.findAll();
+	System.out.println("-----------------   Show All   -------------------------");
 	System.out.println("\nMovies : " + movieList);
 	System.out.println("--------------------------------------------------------");
 	
 	//find movie by using title
 	m = mrep.findByTitle("Dear comrade");
+	System.out.println("-----------------  Find Title  -------------------------");
 	System.out.println("\nMovies :"+ m);
 	System.out.println("--------------------------------------------------------");
 	
 	//removing one Movie record from the database.
 	 mrep.remove(m2);
 	 List<Movie> mList = mrep.findAll();
+	 System.out.println("-----------------   Show All   -------------------------");
 	System.out.println("\nMovies : " + mList);
 	System.out.println("--------------------------------------------------------");	
 	
 	//removing all Movie records from the database
 	 mrep.remove();
+	 System.out.println("---------------- After Remove -------------------------");
 	System.out.println("--------------------------------------------------------");
 	}
 	catch(HibernateException e) {
