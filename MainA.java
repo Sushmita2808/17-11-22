@@ -86,21 +86,25 @@ public static void main(String[] args) {
 			
 			//Display actor by using id
 			Optional<Actor> a = rep.findById(1);
+			System.out.println("-----------------   Find Id    -------------------------");
 			System.out.println("Actors"+a);
 			System.out.println("--------------------------------------------------------");
 			
 			//Display all actors 
 			List<Actor> actorsList = rep.findAllActors();
+			System.out.println("-----------------   Show All   -------------------------");
 			System.out.println("Actors : " + actorsList);
 			System.out.println("--------------------------------------------------------");
 			
 			//Display greater born year than given year
-			a = rep.findAllBornByYear(1985);
-			System.out.println("Actors : "+ a);
+			List<Actor> aList = rep.findAllBornByYear(1985);
+			System.out.println("-----------------After Born Year-------------------------");
+			System.out.println("Actors : "+ aList);
 			System.out.println("--------------------------------------------------------");
 			
 			//Display the surname of the actors
-			List<Actor> lastname = rep.findAllWithLastNameEndsWith("da");		
+			List<Actor> lastname = rep.findAllWithLastNameEndsWith("da");
+			System.out.println("-----------------  Find Actors   -------------------------");
 			System.out.println("Actors : " + lastname );
 			System.out.println("--------------------------------------------------------");
 			
